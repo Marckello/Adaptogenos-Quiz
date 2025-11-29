@@ -1,0 +1,75 @@
+<!-- Archivo con todas las preguntas del quiz -->
+
+<!-- Q7: Problemas de sueño -->
+<div class="screen" id="question7">
+    <div class="question-content">
+        <h2 class="question-title">¿Tienes problemas para dormir?</h2>
+        <p class="question-subtitle">Selecciona todos los que apliquen</p>
+        <div class="options-grid multi-select">
+            <div class="option-card" data-value="ninguno" onclick="toggleMultiSelect(7, 'ninguno')">
+                <div class="option-icon"><i class="fas fa-check-circle"></i></div>
+                <h3>Ninguno</h3>
+                <p>Duermo bien</p>
+            </div>
+            <div class="option-card" data-value="insomnio" onclick="toggleMultiSelect(7, 'insomnio')">
+                <div class="option-icon"><i class="fas fa-moon"></i></div>
+                <h3>Insomnio</h3>
+                <p>No puedo dormirme</p>
+            </div>
+            <div class="option-card" data-value="interrumpido" onclick="toggleMultiSelect(7, 'interrumpido')">
+                <div class="option-icon"><i class="fas fa-bed"></i></div>
+                <h3>Sueño interrumpido</h3>
+                <p>Me despierto varias veces</p>
+            </div>
+            <div class="option-card" data-value="despertar_temprano" onclick="toggleMultiSelect(7, 'despertar_temprano')">
+                <div class="option-icon"><i class="fas fa-sun"></i></div>
+                <h3>Despertar temprano</h3>
+                <p>Me despierto muy temprano</p>
+            </div>
+        </div>
+        <div class="navigation-buttons">
+            <button class="btn-back" onclick="previousQuestion()"><i class="fas fa-arrow-left"></i> Volver</button>
+            <button class="btn-next" onclick="saveAndNext(7)">Siguiente <i class="fas fa-arrow-right"></i></button>
+        </div>
+    </div>
+</div>
+
+<!-- Q8: Actividad física -->
+<div class="screen" id="question8">
+    <div class="question-content">
+        <h2 class="question-title">¿Cuál es tu nivel de actividad física?</h2>
+        <div class="options-grid">
+            <div class="option-card" data-value="sedentario" onclick="selectAndNext(8, 'sedentario')">
+                <div class="option-icon"><i class="fas fa-couch"></i></div>
+                <h3>Sedentario</h3>
+                <p>Poco o ningún ejercicio</p>
+            </div>
+            <div class="option-card" data-value="ligero" onclick="selectAndNext(8, 'ligero')">
+                <div class="option-icon"><i class="fas fa-walking"></i></div>
+                <h3>Ligero</h3>
+                <p>1-2 días/semana</p>
+            </div>
+            <div class="option-card" data-value="moderado" onclick="selectAndNext(8, 'moderado')">
+                <div class="option-icon"><i class="fas fa-running"></i></div>
+                <h3>Moderado</h3>
+                <p>3-4 días/semana</p>
+            </div>
+            <div class="option-card" data-value="deportista" onclick="selectAndNext(8, 'deportista')">
+                <div class="option-icon"><i class="fas fa-dumbbell"></i></div>
+                <h3>Deportista</h3>
+                <p>5-6 días/semana</p>
+            </div>
+            <div class="option-card" data-value="atleta" onclick="selectAndNext(8, 'atleta')">
+                <div class="option-icon"><i class="fas fa-medal"></i></div>
+                <h3>Atleta</h3>
+                <p>Entreno diariamente</p>
+            </div>
+        </div>
+        <div class="navigation-buttons">
+            <button class="btn-back" onclick="previousQuestion()"><i class="fas fa-arrow-left"></i> Volver</button>
+        </div>
+    </div>
+</div>
+
+<!-- Continúan Q9-Q24... -->
+<!-- Por límite de espacio, el HTML completo se generará en el archivo final -->

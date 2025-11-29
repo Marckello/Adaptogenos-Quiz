@@ -1,0 +1,914 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+    <title>Quiz Personalizado de Adaptógenos | Adaptoheal</title>
+    
+    <!-- SEO Meta Tags -->
+    <meta name="description" content="Descubre qué adaptógenos son perfectos para ti con nuestro quiz personalizado. Recomendaciones basadas en tu estilo de vida, salud y objetivos.">
+    <meta name="keywords" content="adaptógenos, suplementos naturales, bienestar, salud holística">
+    
+    <!-- Fonts & Icons -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&family=Playfair+Display:wght@600;700&display=swap" rel="stylesheet">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/@fortawesome/fontawesome-free@6.4.0/css/all.min.css">
+    
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+
+    <!-- Progress Bar -->
+    <div class="progress-container">
+        <div class="progress-bar" id="progressBar"></div>
+        <div class="progress-text" id="progressText">Pregunta 1 de 24</div>
+    </div>
+
+    <!-- Navigation Buttons (Floating) -->
+    <div class="nav-buttons">
+        <button class="btn-back" id="btnBack" style="display: none;">
+            <i class="fas fa-arrow-left"></i> Atrás
+        </button>
+        <button class="btn-restart" id="btnRestart" style="display: none;">
+            <i class="fas fa-redo"></i> Reiniciar
+        </button>
+    </div>
+
+    <!-- Main Container -->
+    <div class="quiz-container" id="quizContainer">
+
+        <!-- Welcome Screen -->
+        <div class="screen active" id="screen-welcome">
+            <div class="welcome-content">
+                <div class="logo-container">
+                    <i class="fas fa-leaf"></i>
+                </div>
+                <h1>Descubre tu Adaptógeno Ideal</h1>
+                <p class="subtitle">Un quiz personalizado para recomendar los mejores adaptógenos según tu estilo de vida, salud y objetivos</p>
+                <div class="features">
+                    <div class="feature">
+                        <i class="fas fa-brain"></i>
+                        <span>IA Personalizada</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-heartbeat"></i>
+                        <span>Análisis Médico</span>
+                    </div>
+                    <div class="feature">
+                        <i class="fas fa-leaf"></i>
+                        <span>100% Natural</span>
+                    </div>
+                </div>
+                <button class="btn-primary" onclick="startQuiz()">
+                    Comenzar Quiz <i class="fas fa-arrow-right"></i>
+                </button>
+                <p class="disclaimer">⏱️ Tiempo estimado: 3-4 minutos</p>
+            </div>
+        </div>
+
+        <!-- Question 1: Edad -->
+        <div class="screen" id="screen-q1">
+            <div class="question-card">
+                <div class="question-category">📊 Datos Personales (1/4)</div>
+                <h2 class="question-title">¿Cuál es tu edad?</h2>
+                <p class="question-subtitle">Nos ayuda a personalizar las recomendaciones</p>
+                <div class="options-grid age-options">
+                    <button class="option-card" onclick="selectAge('18-25')">
+                        <i class="fas fa-user-graduate"></i>
+                        <span>18-25 años</span>
+                    </button>
+                    <button class="option-card" onclick="selectAge('26-35')">
+                        <i class="fas fa-user-tie"></i>
+                        <span>26-35 años</span>
+                    </button>
+                    <button class="option-card" onclick="selectAge('36-45')">
+                        <i class="fas fa-user"></i>
+                        <span>36-45 años</span>
+                    </button>
+                    <button class="option-card" onclick="selectAge('46-55')">
+                        <i class="fas fa-user-check"></i>
+                        <span>46-55 años</span>
+                    </button>
+                    <button class="option-card" onclick="selectAge('56-65')">
+                        <i class="fas fa-user-clock"></i>
+                        <span>56-65 años</span>
+                    </button>
+                    <button class="option-card" onclick="selectAge('66+')">
+                        <i class="fas fa-user-shield"></i>
+                        <span>66+ años</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 2: Sexo -->
+        <div class="screen" id="screen-q2">
+            <div class="question-card">
+                <div class="question-category">📊 Datos Personales (2/4)</div>
+                <h2 class="question-title">Sexo</h2>
+                <p class="question-subtitle">Algunos adaptógenos tienen beneficios específicos por sexo</p>
+                <div class="options-grid gender-options">
+                    <button class="option-card" onclick="selectGender('Masculino')">
+                        <i class="fas fa-mars"></i>
+                        <span>Masculino</span>
+                    </button>
+                    <button class="option-card" onclick="selectGender('Femenino')">
+                        <i class="fas fa-venus"></i>
+                        <span>Femenino</span>
+                    </button>
+                    <button class="option-card" onclick="selectGender('Prefiero no decir')">
+                        <i class="fas fa-user"></i>
+                        <span>Prefiero no decir</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 3: Peso -->
+        <div class="screen" id="screen-q3">
+            <div class="question-card">
+                <div class="question-category">📊 Datos Personales (3/4)</div>
+                <h2 class="question-title">¿Cuál es tu peso? (kg)</h2>
+                <p class="question-subtitle">Para calcular tu IMC y recomendaciones más precisas</p>
+                <div class="input-container">
+                    <input type="number" id="inputWeight" class="input-number" placeholder="Ej: 70" min="30" max="250">
+                    <span class="input-unit">kg</span>
+                </div>
+                <button class="btn-next" onclick="selectWeight()">
+                    Continuar <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Question 4: Altura -->
+        <div class="screen" id="screen-q4">
+            <div class="question-card">
+                <div class="question-category">📊 Datos Personales (4/4)</div>
+                <h2 class="question-title">¿Cuál es tu altura? (cm)</h2>
+                <p class="question-subtitle">Última pregunta de datos personales</p>
+                <div class="input-container">
+                    <input type="number" id="inputHeight" class="input-number" placeholder="Ej: 170" min="120" max="230">
+                    <span class="input-unit">cm</span>
+                </div>
+                <button class="btn-next" onclick="selectHeight()">
+                    Continuar <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Question 5: Horas de sueño -->
+        <div class="screen" id="screen-q5">
+            <div class="question-card">
+                <div class="question-category">😴 Sueño y Energía (1/3)</div>
+                <h2 class="question-title">¿Cuántas horas duermes normalmente?</h2>
+                <div class="options-grid">
+                    <button class="option-card" onclick="selectSleep('menos-5')">
+                        <i class="fas fa-tired"></i>
+                        <span>Menos de 5h</span>
+                    </button>
+                    <button class="option-card" onclick="selectSleep('5-6')">
+                        <i class="fas fa-bed"></i>
+                        <span>5-6 horas</span>
+                    </button>
+                    <button class="option-card" onclick="selectSleep('7-8')">
+                        <i class="fas fa-moon"></i>
+                        <span>7-8 horas</span>
+                    </button>
+                    <button class="option-card" onclick="selectSleep('mas-8')">
+                        <i class="fas fa-sleep"></i>
+                        <span>Más de 8h</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 6: Nivel de energía -->
+        <div class="screen" id="screen-q6">
+            <div class="question-card">
+                <div class="question-category">😴 Sueño y Energía (2/3)</div>
+                <h2 class="question-title">¿Cómo describirías tu nivel de energía durante el día?</h2>
+                <div class="options-grid">
+                    <button class="option-card" onclick="selectEnergy('muy-bajo')">
+                        <i class="fas fa-battery-empty"></i>
+                        <span>Muy bajo, siempre cansado</span>
+                    </button>
+                    <button class="option-card" onclick="selectEnergy('bajo')">
+                        <i class="fas fa-battery-quarter"></i>
+                        <span>Bajo, me cuesta arrancar</span>
+                    </button>
+                    <button class="option-card" onclick="selectEnergy('normal')">
+                        <i class="fas fa-battery-half"></i>
+                        <span>Normal, con altibajos</span>
+                    </button>
+                    <button class="option-card" onclick="selectEnergy('bueno')">
+                        <i class="fas fa-battery-three-quarters"></i>
+                        <span>Bueno, estable</span>
+                    </button>
+                    <button class="option-card" onclick="selectEnergy('excelente')">
+                        <i class="fas fa-battery-full"></i>
+                        <span>Excelente, lleno de energía</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 7: Problemas de sueño -->
+        <div class="screen" id="screen-q7">
+            <div class="question-card">
+                <div class="question-category">😴 Sueño y Energía (3/3)</div>
+                <h2 class="question-title">¿Tienes problemas para dormir?</h2>
+                <div class="options-grid">
+                    <button class="option-card" onclick="selectSleepProblems('insomnio')">
+                        <i class="fas fa-eye"></i>
+                        <span>Sí, insomnio frecuente</span>
+                    </button>
+                    <button class="option-card" onclick="selectSleepProblems('interrupciones')">
+                        <i class="fas fa-moon"></i>
+                        <span>Me despierto mucho</span>
+                    </button>
+                    <button class="option-card" onclick="selectSleepProblems('calidad')">
+                        <i class="fas fa-bed"></i>
+                        <span>Duermo pero no descanso</span>
+                    </button>
+                    <button class="option-card" onclick="selectSleepProblems('ninguno')">
+                        <i class="fas fa-check-circle"></i>
+                        <span>No, duermo bien</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 8: Nivel de actividad física -->
+        <div class="screen" id="screen-q8">
+            <div class="question-card">
+                <div class="question-category">🏃 Estilo de Vida (1/3)</div>
+                <h2 class="question-title">¿Cómo describirías tu nivel de actividad física?</h2>
+                <div class="options-grid">
+                    <button class="option-card" onclick="selectActivity('sedentario')">
+                        <i class="fas fa-couch"></i>
+                        <span>Sedentario (poco o nada)</span>
+                    </button>
+                    <button class="option-card" onclick="selectActivity('ligero')">
+                        <i class="fas fa-walking"></i>
+                        <span>Ligeramente activo (1-2 días)</span>
+                    </button>
+                    <button class="option-card" onclick="selectActivity('moderado')">
+                        <i class="fas fa-running"></i>
+                        <span>Moderado (3-4 días)</span>
+                    </button>
+                    <button class="option-card" onclick="selectActivity('deportista')">
+                        <i class="fas fa-dumbbell"></i>
+                        <span>Deportista (5+ días)</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 9: Consumo de agua -->
+        <div class="screen" id="screen-q9">
+            <div class="question-card">
+                <div class="question-category">🏃 Estilo de Vida (2/3)</div>
+                <h2 class="question-title">¿Cuánta agua tomas al día?</h2>
+                <div class="options-grid">
+                    <button class="option-card" onclick="selectWater('poco')">
+                        <i class="fas fa-tint"></i>
+                        <span>Menos de 1 litro</span>
+                    </button>
+                    <button class="option-card" onclick="selectWater('normal')">
+                        <i class="fas fa-glass-water"></i>
+                        <span>1-2 litros</span>
+                    </button>
+                    <button class="option-card" onclick="selectWater('bueno')">
+                        <i class="fas fa-wine-bottle"></i>
+                        <span>2-3 litros</span>
+                    </button>
+                    <button class="option-card" onclick="selectWater('excelente')">
+                        <i class="fas fa-water"></i>
+                        <span>Más de 3 litros</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 10: Hábitos (Tabaco/Alcohol) -->
+        <div class="screen" id="screen-q10">
+            <div class="question-card">
+                <div class="question-category">🏃 Estilo de Vida (3/3)</div>
+                <h2 class="question-title">¿Fumas o consumes alcohol regularmente?</h2>
+                <div class="options-grid">
+                    <button class="option-card" onclick="selectHabits('ambos')">
+                        <i class="fas fa-smoking"></i>
+                        <span>Sí, ambos</span>
+                    </button>
+                    <button class="option-card" onclick="selectHabits('alcohol')">
+                        <i class="fas fa-wine-glass"></i>
+                        <span>Solo alcohol</span>
+                    </button>
+                    <button class="option-card" onclick="selectHabits('tabaco')">
+                        <i class="fas fa-cigarette"></i>
+                        <span>Solo tabaco</span>
+                    </button>
+                    <button class="option-card" onclick="selectHabits('ninguno')">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Ninguno</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 11: Nivel de estrés -->
+        <div class="screen" id="screen-q11">
+            <div class="question-card">
+                <div class="question-category">🧠 Estrés y Estado Mental (1/3)</div>
+                <h2 class="question-title">¿Cuál es tu nivel de estrés diario?</h2>
+                <div class="options-grid">
+                    <button class="option-card" onclick="selectStress('bajo')">
+                        <i class="fas fa-smile"></i>
+                        <span>Bajo, tranquilo</span>
+                    </button>
+                    <button class="option-card" onclick="selectStress('moderado')">
+                        <i class="fas fa-meh"></i>
+                        <span>Moderado, manejable</span>
+                    </button>
+                    <button class="option-card" onclick="selectStress('alto')">
+                        <i class="fas fa-frown"></i>
+                        <span>Alto, me afecta</span>
+                    </button>
+                    <button class="option-card" onclick="selectStress('muy-alto')">
+                        <i class="fas fa-tired"></i>
+                        <span>Muy alto, abrumador</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 12: Estado de ánimo -->
+        <div class="screen" id="screen-q12">
+            <div class="question-card">
+                <div class="question-category">🧠 Estrés y Estado Mental (2/3)</div>
+                <h2 class="question-title">¿Cómo describirías tu estado de ánimo general?</h2>
+                <div class="options-grid">
+                    <button class="option-card" onclick="selectMood('positivo')">
+                        <i class="fas fa-laugh-beam"></i>
+                        <span>Positivo y optimista</span>
+                    </button>
+                    <button class="option-card" onclick="selectMood('estable')">
+                        <i class="fas fa-smile"></i>
+                        <span>Estable, equilibrado</span>
+                    </button>
+                    <button class="option-card" onclick="selectMood('variable')">
+                        <i class="fas fa-meh-rolling-eyes"></i>
+                        <span>Variable, altibajos</span>
+                    </button>
+                    <button class="option-card" onclick="selectMood('bajo')">
+                        <i class="fas fa-sad-tear"></i>
+                        <span>Bajo, triste frecuentemente</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 13: Presión laboral -->
+        <div class="screen" id="screen-q13">
+            <div class="question-card">
+                <div class="question-category">🧠 Estrés y Estado Mental (3/3)</div>
+                <h2 class="question-title">¿Sientes presión o carga laboral constante?</h2>
+                <div class="options-grid">
+                    <button class="option-card" onclick="selectWorkPressure('alta')">
+                        <i class="fas fa-briefcase"></i>
+                        <span>Sí, alta presión diaria</span>
+                    </button>
+                    <button class="option-card" onclick="selectWorkPressure('moderada')">
+                        <i class="fas fa-business-time"></i>
+                        <span>Moderada, por temporadas</span>
+                    </button>
+                    <button class="option-card" onclick="selectWorkPressure('baja')">
+                        <i class="fas fa-user-check"></i>
+                        <span>Baja, trabajo tranquilo</span>
+                    </button>
+                    <button class="option-card" onclick="selectWorkPressure('ninguna')">
+                        <i class="fas fa-umbrella-beach"></i>
+                        <span>No trabajo actualmente</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 14: Dolores crónicos -->
+        <div class="screen" id="screen-q14">
+            <div class="question-card">
+                <div class="question-category">💪 Salud Física (1/4)</div>
+                <h2 class="question-title">¿Sufres de dolores crónicos?</h2>
+                <div class="options-grid">
+                    <button class="option-card" onclick="selectPain('articulaciones')">
+                        <i class="fas fa-hand-paper"></i>
+                        <span>Articulaciones</span>
+                    </button>
+                    <button class="option-card" onclick="selectPain('espalda')">
+                        <i class="fas fa-user"></i>
+                        <span>Espalda/Cuello</span>
+                    </button>
+                    <button class="option-card" onclick="selectPain('muscular')">
+                        <i class="fas fa-dumbbell"></i>
+                        <span>Dolor muscular</span>
+                    </button>
+                    <button class="option-card" onclick="selectPain('migraña')">
+                        <i class="fas fa-head-side-cough"></i>
+                        <span>Migrañas/Cefaleas</span>
+                    </button>
+                    <button class="option-card" onclick="selectPain('ninguno')">
+                        <i class="fas fa-check-circle"></i>
+                        <span>No tengo dolores</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 15: Problemas digestivos -->
+        <div class="screen" id="screen-q15">
+            <div class="question-card">
+                <div class="question-category">💪 Salud Física (2/4)</div>
+                <h2 class="question-title">¿Tienes problemas digestivos frecuentes?</h2>
+                <div class="options-grid">
+                    <button class="option-card" onclick="selectDigestion('gastritis')">
+                        <i class="fas fa-stomach"></i>
+                        <span>Gastritis/Acidez</span>
+                    </button>
+                    <button class="option-card" onclick="selectDigestion('intestino')">
+                        <i class="fas fa-procedures"></i>
+                        <span>Intestino irritable</span>
+                    </button>
+                    <button class="option-card" onclick="selectDigestion('estreñimiento')">
+                        <i class="fas fa-toilet"></i>
+                        <span>Estreñimiento</span>
+                    </button>
+                    <button class="option-card" onclick="selectDigestion('ninguno')">
+                        <i class="fas fa-check-circle"></i>
+                        <span>No, digestión normal</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 16: Frecuencia de enfermedades -->
+        <div class="screen" id="screen-q16">
+            <div class="question-card">
+                <div class="question-category">💪 Salud Física (3/4)</div>
+                <h2 class="question-title">¿Con qué frecuencia te enfermas (gripes, resfriados)?</h2>
+                <div class="options-grid">
+                    <button class="option-card" onclick="selectIllness('frecuente')">
+                        <i class="fas fa-head-side-cough"></i>
+                        <span>Muy seguido (4+ al año)</span>
+                    </button>
+                    <button class="option-card" onclick="selectIllness('ocasional')">
+                        <i class="fas fa-thermometer-half"></i>
+                        <span>Ocasionalmente (2-3 al año)</span>
+                    </button>
+                    <button class="option-card" onclick="selectIllness('raro')">
+                        <i class="fas fa-check"></i>
+                        <span>Rara vez (1 o menos)</span>
+                    </button>
+                    <button class="option-card" onclick="selectIllness('nunca')">
+                        <i class="fas fa-shield-alt"></i>
+                        <span>Casi nunca</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 17: Problemas de circulación -->
+        <div class="screen" id="screen-q17">
+            <div class="question-card">
+                <div class="question-category">💪 Salud Física (4/4)</div>
+                <h2 class="question-title">¿Tienes problemas de circulación?</h2>
+                <div class="options-grid">
+                    <button class="option-card" onclick="selectCirculation('si')">
+                        <i class="fas fa-heart"></i>
+                        <span>Sí (manos/pies fríos, várices)</span>
+                    </button>
+                    <button class="option-card" onclick="selectCirculation('a-veces')">
+                        <i class="fas fa-heartbeat"></i>
+                        <span>A veces</span>
+                    </button>
+                    <button class="option-card" onclick="selectCirculation('no')">
+                        <i class="fas fa-check-circle"></i>
+                        <span>No</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 18: Problemas hormonales -->
+        <div class="screen" id="screen-q18">
+            <div class="question-card">
+                <div class="question-category">🔥 Salud Hormonal y Sexual (1/3)</div>
+                <h2 class="question-title">¿Experimentas alguno de estos síntomas hormonales?</h2>
+                <p class="question-subtitle">Puedes elegir varios si aplica</p>
+                <div class="options-grid checkbox-options">
+                    <button class="option-card multi-select" onclick="toggleHormone('menopausia')">
+                        <i class="fas fa-female"></i>
+                        <span>Menopausia/Sofocos</span>
+                        <i class="fas fa-check checkmark"></i>
+                    </button>
+                    <button class="option-card multi-select" onclick="toggleHormone('menstruacion')">
+                        <i class="fas fa-calendar"></i>
+                        <span>Ciclos irregulares</span>
+                        <i class="fas fa-check checkmark"></i>
+                    </button>
+                    <button class="option-card multi-select" onclick="toggleHormone('tiroides')">
+                        <i class="fas fa-lungs"></i>
+                        <span>Problemas de tiroides</span>
+                        <i class="fas fa-check checkmark"></i>
+                    </button>
+                    <button class="option-card multi-select" onclick="toggleHormone('testosterona')">
+                        <i class="fas fa-male"></i>
+                        <span>Testosterona baja</span>
+                        <i class="fas fa-check checkmark"></i>
+                    </button>
+                    <button class="option-card multi-select" onclick="toggleHormone('ninguno')">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Ninguno</span>
+                        <i class="fas fa-check checkmark"></i>
+                    </button>
+                </div>
+                <button class="btn-next" onclick="confirmHormones()">
+                    Continuar <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Question 19: Libido -->
+        <div class="screen" id="screen-q19">
+            <div class="question-card">
+                <div class="question-category">🔥 Salud Hormonal y Sexual (2/3)</div>
+                <h2 class="question-title">¿Cómo describirías tu libido/deseo sexual?</h2>
+                <div class="options-grid">
+                    <button class="option-card" onclick="selectLibido('bajo')">
+                        <i class="fas fa-battery-empty"></i>
+                        <span>Bajo o nulo</span>
+                    </button>
+                    <button class="option-card" onclick="selectLibido('disminuido')">
+                        <i class="fas fa-battery-quarter"></i>
+                        <span>Ha disminuido</span>
+                    </button>
+                    <button class="option-card" onclick="selectLibido('normal')">
+                        <i class="fas fa-battery-half"></i>
+                        <span>Normal</span>
+                    </button>
+                    <button class="option-card" onclick="selectLibido('alto')">
+                        <i class="fas fa-battery-full"></i>
+                        <span>Alto/Saludable</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 20: Padecimientos actuales -->
+        <div class="screen" id="screen-q20">
+            <div class="question-card">
+                <div class="question-category">🔥 Salud Hormonal y Sexual (3/3)</div>
+                <h2 class="question-title">¿Tienes alguno de estos padecimientos?</h2>
+                <p class="question-subtitle">Puedes elegir varios - esto nos ayuda a evitar contraindicaciones</p>
+                <div class="options-grid checkbox-options">
+                    <button class="option-card multi-select" onclick="toggleAilment('diabetes')">
+                        <i class="fas fa-syringe"></i>
+                        <span>Diabetes</span>
+                        <i class="fas fa-check checkmark"></i>
+                    </button>
+                    <button class="option-card multi-select" onclick="toggleAilment('hipertension')">
+                        <i class="fas fa-heart-pulse"></i>
+                        <span>Hipertensión</span>
+                        <i class="fas fa-check checkmark"></i>
+                    </button>
+                    <button class="option-card multi-select" onclick="toggleAilment('tiroides')">
+                        <i class="fas fa-lungs"></i>
+                        <span>Tiroides</span>
+                        <i class="fas fa-check checkmark"></i>
+                    </button>
+                    <button class="option-card multi-select" onclick="toggleAilment('artritis')">
+                        <i class="fas fa-hand-sparkles"></i>
+                        <span>Artritis</span>
+                        <i class="fas fa-check checkmark"></i>
+                    </button>
+                    <button class="option-card multi-select" onclick="toggleAilment('ansiedad')">
+                        <i class="fas fa-brain"></i>
+                        <span>Ansiedad/Depresión</span>
+                        <i class="fas fa-check checkmark"></i>
+                    </button>
+                    <button class="option-card multi-select" onclick="toggleAilment('higado')">
+                        <i class="fas fa-prescription-bottle"></i>
+                        <span>Hígado graso</span>
+                        <i class="fas fa-check checkmark"></i>
+                    </button>
+                    <button class="option-card multi-select" onclick="toggleAilment('colesterol')">
+                        <i class="fas fa-heartbeat"></i>
+                        <span>Colesterol alto</span>
+                        <i class="fas fa-check checkmark"></i>
+                    </button>
+                    <button class="option-card multi-select" onclick="toggleAilment('ninguno')">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Ninguno</span>
+                        <i class="fas fa-check checkmark"></i>
+                    </button>
+                </div>
+                <button class="btn-next" onclick="confirmAilments()">
+                    Continuar <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Question 21: Historial familiar -->
+        <div class="screen" id="screen-q21">
+            <div class="question-card">
+                <div class="question-category">🧬 Historial Médico (1/2)</div>
+                <h2 class="question-title">Historial familiar (padres, hermanos)</h2>
+                <p class="question-subtitle">Selecciona si alguno ha padecido:</p>
+                <div class="options-grid checkbox-options">
+                    <button class="option-card multi-select" onclick="toggleFamilyHistory('diabetes')">
+                        <i class="fas fa-syringe"></i>
+                        <span>Diabetes</span>
+                        <i class="fas fa-check checkmark"></i>
+                    </button>
+                    <button class="option-card multi-select" onclick="toggleFamilyHistory('cancer')">
+                        <i class="fas fa-ribbon"></i>
+                        <span>Cáncer</span>
+                        <i class="fas fa-check checkmark"></i>
+                    </button>
+                    <button class="option-card multi-select" onclick="toggleFamilyHistory('alzheimer')">
+                        <i class="fas fa-brain"></i>
+                        <span>Alzheimer/Demencia</span>
+                        <i class="fas fa-check checkmark"></i>
+                    </button>
+                    <button class="option-card multi-select" onclick="toggleFamilyHistory('cardiaco')">
+                        <i class="fas fa-heart"></i>
+                        <span>Problemas cardíacos</span>
+                        <i class="fas fa-check checkmark"></i>
+                    </button>
+                    <button class="option-card multi-select" onclick="toggleFamilyHistory('obesidad')">
+                        <i class="fas fa-weight"></i>
+                        <span>Obesidad</span>
+                        <i class="fas fa-check checkmark"></i>
+                    </button>
+                    <button class="option-card multi-select" onclick="toggleFamilyHistory('hipertension')">
+                        <i class="fas fa-heart-pulse"></i>
+                        <span>Hipertensión</span>
+                        <i class="fas fa-check checkmark"></i>
+                    </button>
+                    <button class="option-card multi-select" onclick="toggleFamilyHistory('ninguno')">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Ninguno conocido</span>
+                        <i class="fas fa-check checkmark"></i>
+                    </button>
+                </div>
+                <button class="btn-next" onclick="confirmFamilyHistory()">
+                    Continuar <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Question 22: Consumo de cafeína -->
+        <div class="screen" id="screen-q22">
+            <div class="question-card">
+                <div class="question-category">☕ Hábitos (1/2)</div>
+                <h2 class="question-title">¿Cuánta cafeína consumes al día?</h2>
+                <div class="options-grid">
+                    <button class="option-card" onclick="selectCaffeine('ninguna')">
+                        <i class="fas fa-ban"></i>
+                        <span>Ninguna</span>
+                    </button>
+                    <button class="option-card" onclick="selectCaffeine('1-2')">
+                        <i class="fas fa-coffee"></i>
+                        <span>1-2 tazas</span>
+                    </button>
+                    <button class="option-card" onclick="selectCaffeine('3-4')">
+                        <i class="fas fa-mug-hot"></i>
+                        <span>3-4 tazas</span>
+                    </button>
+                    <button class="option-card" onclick="selectCaffeine('5+')">
+                        <i class="fas fa-coffee"></i>
+                        <span>5+ tazas</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 23: Tipo de dieta -->
+        <div class="screen" id="screen-q23">
+            <div class="question-card">
+                <div class="question-category">☕ Hábitos (2/2)</div>
+                <h2 class="question-title">¿Cómo describirías tu alimentación?</h2>
+                <div class="options-grid">
+                    <button class="option-card" onclick="selectDiet('desbalanceada')">
+                        <i class="fas fa-burger"></i>
+                        <span>Desbalanceada, comida rápida</span>
+                    </button>
+                    <button class="option-card" onclick="selectDiet('normal')">
+                        <i class="fas fa-utensils"></i>
+                        <span>Normal, variada</span>
+                    </button>
+                    <button class="option-card" onclick="selectDiet('saludable')">
+                        <i class="fas fa-apple-alt"></i>
+                        <span>Saludable, balanceada</span>
+                    </button>
+                    <button class="option-card" onclick="selectDiet('especial')">
+                        <i class="fas fa-leaf"></i>
+                        <span>Especial (vegana, keto, etc.)</span>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Question 24: Objetivos principales (MÚLTIPLE - hasta 3) -->
+        <div class="screen" id="screen-q24">
+            <div class="question-card">
+                <div class="question-category">🎯 Tus Objetivos</div>
+                <h2 class="question-title">¿Cuáles son tus 3 objetivos principales?</h2>
+                <p class="question-subtitle">Selecciona hasta 3 en orden de prioridad (1️⃣ 2️⃣ 3️⃣)</p>
+                <div class="objectives-counter">
+                    <span id="objectivesSelected">0</span>/3 objetivos seleccionados
+                </div>
+                <div class="options-grid objectives-grid">
+                    <button class="option-card objective-card" onclick="toggleObjective('reducir-estres')">
+                        <i class="fas fa-spa"></i>
+                        <span>Reducir estrés y ansiedad</span>
+                        <span class="objective-badge"></span>
+                    </button>
+                    <button class="option-card objective-card" onclick="toggleObjective('mejorar-sueño')">
+                        <i class="fas fa-bed"></i>
+                        <span>Mejorar calidad de sueño</span>
+                        <span class="objective-badge"></span>
+                    </button>
+                    <button class="option-card objective-card" onclick="toggleObjective('aumentar-energia')">
+                        <i class="fas fa-bolt"></i>
+                        <span>Aumentar energía</span>
+                        <span class="objective-badge"></span>
+                    </button>
+                    <button class="option-card objective-card" onclick="toggleObjective('memoria-foco')">
+                        <i class="fas fa-brain"></i>
+                        <span>Mejorar memoria y concentración</span>
+                        <span class="objective-badge"></span>
+                    </button>
+                    <button class="option-card objective-card" onclick="toggleObjective('sistema-inmune')">
+                        <i class="fas fa-shield-virus"></i>
+                        <span>Fortalecer sistema inmune</span>
+                        <span class="objective-badge"></span>
+                    </button>
+                    <button class="option-card objective-card" onclick="toggleObjective('rendimiento-fisico')">
+                        <i class="fas fa-running"></i>
+                        <span>Rendimiento físico/deportivo</span>
+                        <span class="objective-badge"></span>
+                    </button>
+                    <button class="option-card objective-card" onclick="toggleObjective('balance-hormonal')">
+                        <i class="fas fa-balance-scale"></i>
+                        <span>Balance hormonal</span>
+                        <span class="objective-badge"></span>
+                    </button>
+                    <button class="option-card objective-card" onclick="toggleObjective('libido')">
+                        <i class="fas fa-heart"></i>
+                        <span>Mejorar libido/vitalidad sexual</span>
+                        <span class="objective-badge"></span>
+                    </button>
+                    <button class="option-card objective-card" onclick="toggleObjective('control-peso')">
+                        <i class="fas fa-weight"></i>
+                        <span>Control de peso</span>
+                        <span class="objective-badge"></span>
+                    </button>
+                    <button class="option-card objective-card" onclick="toggleObjective('antienvejecimiento')">
+                        <i class="fas fa-seedling"></i>
+                        <span>Anti-envejecimiento</span>
+                        <span class="objective-badge"></span>
+                    </button>
+                    <button class="option-card objective-card" onclick="toggleObjective('digestivo')">
+                        <i class="fas fa-stomach"></i>
+                        <span>Salud digestiva</span>
+                        <span class="objective-badge"></span>
+                    </button>
+                    <button class="option-card objective-card" onclick="toggleObjective('dolor')">
+                        <i class="fas fa-hand-holding-medical"></i>
+                        <span>Reducir dolor/inflamación</span>
+                        <span class="objective-badge"></span>
+                    </button>
+                </div>
+                <button class="btn-next" id="btnObjectivesContinue" onclick="confirmObjectives()" disabled>
+                    Continuar <i class="fas fa-arrow-right"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Contact Info Screen -->
+        <div class="screen" id="screen-contact">
+            <div class="question-card">
+                <div class="question-category">📱 Último Paso</div>
+                <h2 class="question-title">Para enviarte tus resultados personalizados</h2>
+                <p class="question-subtitle">100% privado y seguro. Sin spam.</p>
+                
+                <div class="contact-form">
+                    <div class="form-group">
+                        <label><i class="fas fa-user"></i> Nombre</label>
+                        <input type="text" id="inputName" class="form-input" placeholder="Tu nombre" required>
+                    </div>
+                    
+                    <div class="form-group">
+                        <label><i class="fas fa-phone"></i> WhatsApp (10 dígitos)</label>
+                        <div class="phone-input-group">
+                            <span class="phone-prefix">🇲🇽 +52</span>
+                            <input type="tel" id="inputWhatsapp" class="form-input" placeholder="5512345678" maxlength="10" pattern="[0-9]{10}" required>
+                        </div>
+                        <small class="input-help">Solo para enviarte tus resultados y cupón</small>
+                    </div>
+                </div>
+
+                <button class="btn-primary btn-submit" onclick="submitQuiz()">
+                    Ver mis resultados <i class="fas fa-magic"></i>
+                </button>
+            </div>
+        </div>
+
+        <!-- Loading Screen -->
+        <div class="screen" id="screen-loading">
+            <div class="loading-content">
+                <div class="loading-spinner">
+                    <i class="fas fa-leaf fa-spin"></i>
+                </div>
+                <h2 class="loading-title">Analizando tu perfil...</h2>
+                <p class="loading-subtitle">Nuestra IA está creando recomendaciones personalizadas</p>
+                <div class="loading-steps">
+                    <div class="loading-step active">
+                        <i class="fas fa-check-circle"></i>
+                        <span>Analizando datos de salud</span>
+                    </div>
+                    <div class="loading-step">
+                        <i class="fas fa-circle-notch fa-spin"></i>
+                        <span>Calculando adaptógenos ideales</span>
+                    </div>
+                    <div class="loading-step">
+                        <i class="fas fa-circle"></i>
+                        <span>Generando recomendaciones</span>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <!-- Results Screen -->
+        <div class="screen" id="screen-results">
+            <div class="results-container">
+                <div class="results-header">
+                    <h1 class="results-title">Tus Resultados Personalizados</h1>
+                    <p class="results-subtitle" id="aiExplanation">Cargando recomendaciones...</p>
+                </div>
+
+                <!-- Main Recommendation -->
+                <div class="recommendation-section main-recommendation">
+                    <h2 class="section-title">
+                        <i class="fas fa-star"></i> Tu Adaptógeno Principal
+                    </h2>
+                    <div id="mainProduct" class="product-card-large">
+                        <!-- Se llenará dinámicamente -->
+                    </div>
+                </div>
+
+                <!-- Complementary Recommendations -->
+                <div class="recommendation-section">
+                    <h2 class="section-title">
+                        <i class="fas fa-puzzle-piece"></i> Recomendaciones Complementarias
+                    </h2>
+                    <p class="section-subtitle">Estos adaptógenos potenciarán los efectos del principal</p>
+                    <div id="complementaryProducts" class="products-grid">
+                        <!-- Se llenará dinámicamente -->
+                    </div>
+                </div>
+
+                <!-- Coupon Section -->
+                <div class="coupon-section" id="couponSection">
+                    <div class="coupon-header">
+                        <i class="fas fa-gift"></i>
+                        <h3>¡Oferta Especial Para Ti!</h3>
+                    </div>
+                    <p class="coupon-text" id="couponText">
+                        <!-- Se llenará con IA -->
+                    </p>
+                    <div class="coupon-buttons">
+                        <button class="btn-decline" id="btnDecline" onclick="declineCoupon()">
+                            <!-- Se llenará con IA -->
+                        </button>
+                        <button class="btn-accept" id="btnAccept" onclick="acceptCoupon()">
+                            <!-- Se llenará con IA -->
+                        </button>
+                    </div>
+                </div>
+
+                <button class="btn-restart-final" onclick="location.reload()">
+                    <i class="fas fa-redo"></i> Hacer el quiz de nuevo
+                </button>
+            </div>
+        </div>
+
+    </div>
+
+    <!-- Scripts -->
+    <script src="js/products-data.js"></script>
+    <script src="js/recommendation-engine.js"></script>
+    <script src="js/main.js"></script>
+</body>
+</html>

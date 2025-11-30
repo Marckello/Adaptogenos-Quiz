@@ -451,6 +451,37 @@ body {
 }
 
 /* ============================================
+   INPUT FIELDS
+   ============================================ */
+
+.input-container {
+    margin-top: 2rem;
+}
+
+.input-field {
+    width: 100%;
+    padding: 1.2rem;
+    border: 2px solid var(--gris-suave);
+    border-radius: 15px;
+    font-size: 1.1rem;
+    font-family: var(--font-primary);
+    color: var(--verde-bosque);
+    background: var(--blanco);
+    transition: var(--transition-smooth);
+    margin-bottom: 1rem;
+}
+
+.input-field:focus {
+    outline: none;
+    border-color: var(--verde-salvia);
+    box-shadow: 0 0 0 3px rgba(107, 142, 35, 0.1);
+}
+
+.input-field::placeholder {
+    color: var(--tierra-clara);
+}
+
+/* ============================================
    BUTTONS
    ============================================ */
 

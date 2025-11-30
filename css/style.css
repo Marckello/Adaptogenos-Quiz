@@ -177,15 +177,10 @@ body {
 }
 
 .logo-container {
-    width: 80px;
-    height: 80px;
-    background: linear-gradient(135deg, var(--verde-salvia), var(--verde-bosque));
-    border-radius: 50%;
     display: flex;
     align-items: center;
     justify-content: center;
     margin: 0 auto 1.5rem;
-    box-shadow: 0 8px 25px rgba(45, 80, 22, 0.3);
 }
 
 .logo-container i {
@@ -404,7 +399,7 @@ body {
     height: 24px;
     border-radius: 50%;
     background: var(--gris-suave);
-    display: flex;
+    display: none;
     align-items: center;
     justify-content: center;
     opacity: 0;
@@ -412,6 +407,7 @@ body {
 }
 
 .option-card.multi-select.selected .checkmark {
+    display: flex;
     opacity: 1;
     background: var(--blanco);
 }

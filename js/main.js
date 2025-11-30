@@ -1139,6 +1139,11 @@ async function saveToDatabase(recommendations) {
 // ============================================
 
 function displayResults(recommendations) {
+    // Personalizar títulos con nombre de usuario
+    const nombre = userData.nombre || 'Usuario';
+    document.getElementById('resultsTitle').textContent = `${nombre}, estos son tus resultados personalizados`;
+    document.getElementById('couponTitle').textContent = `Oferta Exclusiva para ${nombre}`;
+    
     // Explicación IA
     document.getElementById('aiExplanation').textContent = recommendations.aiExplanation;
     
@@ -1206,36 +1211,69 @@ function displayResults(recommendations) {
 // ============================================
 
 async function declineCoupon() {
+    const nombre = userData.nombre || 'Usuario';
+    
+    // Enviar webhook con rechazo
+    await sendCouponWebhook(false);
+    
     // Guardar decisión en BD
     await updateCouponDecision(false);
     
     // Ocultar sección de cupón
     document.getElementById('couponSection').style.display = 'none';
     
-    // Mostrar mensaje
-    alert('¡Entendido! Puedes comprar cuando estés listo en Adaptoheal.com');
+    // Mostrar mensaje personalizado
+    alert(`${nombre}, entendemos tu decisión. Recuerda que cuidar tu bienestar es fundamental para tu calidad de vida. Estamos aquí para cuando decidas comenzar tu protocolo de bienestar personalizado. ¡Te esperamos!`);
 }
 
 async function acceptCoupon() {
+    const nombre = userData.nombre || 'Usuario';
+    
+    // Enviar webhook con aceptación
+    await sendCouponWebhook(true);
+    
     // Guardar decisión en BD
     await updateCouponDecision(true);
     
-    // Mostrar cupón
+    // Mostrar mensaje de confirmación
     document.getElementById('couponSection').innerHTML = `
         <div class="coupon-success">
             <i class="fas fa-check-circle"></i>
-            <h3>¡Cupón Activado!</h3>
-            <div class="coupon-code">ADAPTOHEAL10</div>
-            <p>Usa el código <strong>ADAPTOHEAL10</strong> en tu compra para obtener 10% de descuento</p>
-            <p class="coupon-note">📧 También lo enviamos a tu WhatsApp: ${userData.whatsapp}</p>
+            <h3>¡Perfecto, ${nombre}!</h3>
+            <p style="font-size: 1.2rem; margin: 20px 0;">${nombre}, hemos enviado tu descuento exclusivo a tu WhatsApp</p>
+            <p class="coupon-note">📱 WhatsApp: ${userData.whatsapp}</p>
             <a href="https://adaptohealmx.com/shop" target="_blank" class="btn-shop-now">
                 Ir a la tienda <i class="fas fa-shopping-cart"></i>
             </a>
         </div>
     `;
+}
+
+async function sendCouponWebhook(accepted) {
+    const webhookURL = 'https://automations-n8n.ncokrw.easypanel.host/webhook/cupon-quiz';
     
-    // Simular envío de email/WhatsApp (en producción, esto se haría en el backend)
-    console.log('📧 Enviando cupón a:', userData.whatsapp);
+    const payload = {
+        tipo: accepted ? 'cupon_aceptado' : 'cupon_rechazado',
+        nombre: userData.nombre,
+        email: userData.email,
+        whatsapp: userData.whatsapp,
+        producto_principal: window.currentRecommendations?.mainProduct?.product?.name || '',
+        productos_complementarios: window.currentRecommendations?.complementaryProducts?.map(p => p.product.name) || [],
+        acepto_cupon: accepted
+    };
+    
+    try {
+        await fetch(webhookURL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        });
+        console.log(`✅ Webhook enviado: ${accepted ? 'aceptado' : 'rechazado'}`);
+    } catch (error) {
+        console.error('❌ Error enviando webhook:', error);
+    }
 }
 
 async function updateCouponDecision(accepted) {
@@ -1255,6 +1293,139 @@ async function updateCouponDecision(accepted) {
     } catch (error) {
         console.error('❌ Error actualizando decisión:', error);
     }
+}
+
+// ============================================
+// ENVIAR RESULTADOS POR CORREO
+// ============================================
+
+async function sendResultsByEmail() {
+    const nombre = userData.nombre || 'Usuario';
+    const webhookURL = 'https://automations-n8n.ncokrw.easypanel.host/webhook/cupon-quiz';
+    
+    // Generar HTML de resultados
+    const htmlResultados = generateResultsHTML();
+    
+    const payload = {
+        tipo: 'enviar_resultados',
+        nombre: userData.nombre,
+        email: userData.email,
+        whatsapp: userData.whatsapp,
+        html_resultados: htmlResultados
+    };
+    
+    try {
+        const button = event.target;
+        button.disabled = true;
+        button.innerHTML = '<i class="fas fa-spinner fa-spin"></i> Enviando...';
+        
+        await fetch(webhookURL, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify(payload)
+        });
+        
+        button.innerHTML = '<i class="fas fa-check"></i> ¡Enviado!';
+        alert(`${nombre}, hemos enviado tus resultados personalizados a ${userData.email}`);
+        
+        setTimeout(() => {
+            button.disabled = false;
+            button.innerHTML = '<i class="fas fa-envelope"></i> Enviar mis resultados por correo';
+        }, 3000);
+        
+        console.log('✅ Resultados enviados por correo');
+    } catch (error) {
+        console.error('❌ Error enviando resultados:', error);
+        alert('Hubo un error al enviar tus resultados. Por favor inténtalo de nuevo.');
+        button.disabled = false;
+        button.innerHTML = '<i class="fas fa-envelope"></i> Enviar mis resultados por correo';
+    }
+}
+
+function generateResultsHTML() {
+    const nombre = userData.nombre || 'Usuario';
+    const recommendations = window.currentRecommendations;
+    
+    if (!recommendations) {
+        return '<p>No hay resultados disponibles</p>';
+    }
+    
+    const mainProduct = recommendations.mainProduct;
+    const complementaryProducts = recommendations.complementaryProducts;
+    
+    let complementaryHTML = '';
+    complementaryProducts.forEach(item => {
+        complementaryHTML += `
+            <div style="margin-bottom: 20px; padding: 15px; background: #f9f9f9; border-radius: 10px;">
+                <h4 style="color: #6B8E23; margin: 0 0 10px 0;">${item.product.name}</h4>
+                <p style="margin: 0; color: #666;"><strong>Complementa porque:</strong> ${item.reason}</p>
+                <p style="margin: 10px 0 0 0;">
+                    <strong style="color: #6B8E23; font-size: 1.1rem;">$${item.product.sale_price || item.product.regular_price} MXN</strong>
+                </p>
+                <a href="${item.product.permalink}" style="display: inline-block; margin-top: 10px; padding: 8px 16px; background: #6B8E23; color: white; text-decoration: none; border-radius: 5px;">Ver Producto</a>
+            </div>
+        `;
+    });
+    
+    const html = `
+        <!DOCTYPE html>
+        <html lang="es">
+        <head>
+            <meta charset="UTF-8">
+            <meta name="viewport" content="width=device-width, initial-scale=1.0">
+            <title>Tus Resultados Personalizados - Adaptoheal</title>
+        </head>
+        <body style="font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif; margin: 0; padding: 0; background-color: #f5f5f5;">
+            <div style="max-width: 600px; margin: 0 auto; background: white; padding: 40px 30px;">
+                <!-- Header -->
+                <div style="text-align: center; margin-bottom: 30px;">
+                    <h1 style="color: #6B8E23; font-size: 2rem; margin: 0 0 10px 0;">${nombre}, estos son tus resultados personalizados</h1>
+                    <p style="color: #666; font-size: 1rem; margin: 0;">Recomendaciones basadas en tu perfil de salud</p>
+                </div>
+                
+                <!-- Explicación IA -->
+                <div style="background: #f9f9f9; padding: 20px; border-radius: 10px; margin-bottom: 30px; border-left: 4px solid #6B8E23;">
+                    <p style="color: #333; line-height: 1.6; margin: 0;">${recommendations.aiExplanation}</p>
+                </div>
+                
+                <!-- Producto Principal -->
+                <div style="margin-bottom: 30px;">
+                    <h2 style="color: #6B8E23; font-size: 1.5rem; margin: 0 0 20px 0;">Tu Producto Principal</h2>
+                    <div style="border: 2px solid #6B8E23; border-radius: 15px; padding: 20px; background: white;">
+                        <img src="${mainProduct.product.images[0]}" alt="${mainProduct.product.name}" style="width: 100%; max-width: 300px; display: block; margin: 0 auto 20px auto; border-radius: 10px;">
+                        <h3 style="color: #333; margin: 0 0 10px 0;">${mainProduct.product.name}</h3>
+                        <p style="color: #666; margin: 0 0 15px 0; line-height: 1.6;"><strong>¿Por qué este producto para ti?</strong><br>${recommendations.productReason || mainProduct.reason}</p>
+                        <p style="margin: 0 0 15px 0;">
+                            ${mainProduct.product.sale_price ? 
+                                `<span style="text-decoration: line-through; color: #999; margin-right: 10px;">$${mainProduct.product.regular_price} MXN</span>
+                                 <span style="color: #6B8E23; font-size: 1.3rem; font-weight: bold;">$${mainProduct.product.sale_price} MXN</span>` :
+                                `<span style="color: #6B8E23; font-size: 1.3rem; font-weight: bold;">$${mainProduct.product.regular_price} MXN</span>`
+                            }
+                        </p>
+                        <a href="${mainProduct.product.permalink}" style="display: inline-block; padding: 12px 30px; background: #6B8E23; color: white; text-decoration: none; border-radius: 10px; font-weight: 600;">Ver Producto</a>
+                    </div>
+                </div>
+                
+                <!-- Productos Complementarios -->
+                <div style="margin-bottom: 30px;">
+                    <h2 style="color: #6B8E23; font-size: 1.5rem; margin: 0 0 20px 0;">Productos Complementarios</h2>
+                    ${complementaryHTML}
+                </div>
+                
+                <!-- Footer -->
+                <div style="text-align: center; padding-top: 30px; border-top: 2px solid #eee;">
+                    <p style="color: #666; margin: 0 0 10px 0;">Visita nuestra tienda para conocer más productos</p>
+                    <a href="https://adaptohealmx.com/shop" style="display: inline-block; padding: 12px 30px; background: #6B8E23; color: white; text-decoration: none; border-radius: 10px; font-weight: 600; margin-top: 10px;">Ir a la Tienda</a>
+                    <p style="color: #999; font-size: 0.9rem; margin: 20px 0 0 0;">© ${new Date().getFullYear()} Adaptoheal - Bienestar Natural</p>
+                </div>
+            </div>
+        </body>
+        </html>
+    `;
+    
+    return html;
 }
 
 // ============================================

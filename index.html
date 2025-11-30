@@ -831,7 +831,7 @@
         <div class="screen" id="screen-results">
             <div class="results-container">
                 <div class="results-header">
-                    <h1 class="results-title">Tus Resultados Personalizados</h1>
+                    <h1 class="results-title" id="resultsTitle">Tus Resultados Personalizados</h1>
                     <p class="results-subtitle" id="aiExplanation">Cargando recomendaciones...</p>
                 </div>
 
@@ -860,7 +860,7 @@
                 <div class="coupon-section" id="couponSection">
                     <div class="coupon-header">
                         <i class="fas fa-gift"></i>
-                        <h3>¡Oferta Especial Para Ti!</h3>
+                        <h3 id="couponTitle">¡Oferta Especial Para Ti!</h3>
                     </div>
                     <p class="coupon-text" id="couponText">
                         <!-- Se llenará con IA -->
@@ -875,9 +875,14 @@
                     </div>
                 </div>
 
-                <button class="btn-restart-final" onclick="location.reload()">
-                    <i class="fas fa-redo"></i> Hacer el quiz de nuevo
-                </button>
+                <div class="results-actions">
+                    <button class="btn-restart-final" onclick="location.reload()">
+                        <i class="fas fa-redo"></i> Hacer el quiz de nuevo
+                    </button>
+                    <button class="btn-email-results" onclick="sendResultsByEmail()">
+                        <i class="fas fa-envelope"></i> Enviar mis resultados por correo
+                    </button>
+                </div>
             </div>
         </div>
 

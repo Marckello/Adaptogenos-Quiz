@@ -581,8 +581,8 @@ body {
 }
 
 .loading-spinner {
-    width: 80px;
-    height: 80px;
+    width: 100px;
+    height: 100px;
     margin: 0 auto 2rem;
     display: flex;
     align-items: center;
@@ -592,6 +592,22 @@ body {
 .loading-spinner i {
     font-size: 4rem;
     color: var(--verde-salvia);
+}
+
+.loading-spinner img {
+    width: 100px;
+    height: 100px;
+    object-fit: contain;
+    animation: spin 2s linear infinite;
+}
+
+@keyframes spin {
+    0% {
+        transform: rotate(0deg);
+    }
+    100% {
+        transform: rotate(360deg);
+    }
 }
 
 .loading-title {

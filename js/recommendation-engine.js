@@ -1,8 +1,6 @@
 // ============================================
 // MOTOR DE RECOMENDACIÓN INTELIGENTE
-// Sistema médico con 24 variables + contraindic
-
-aciones
+// Sistema médico con 24 variables + contraindicaciones
 // ============================================
 
 function calculateScores(userData) {

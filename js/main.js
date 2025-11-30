@@ -1159,6 +1159,15 @@ async function updateCouponDecision(accepted) {
 // ============================================
 
 function animateSelection(element) {
+    // Remover selección previa de todos los botones en el mismo contenedor
+    const parent = element.closest('.options-grid');
+    if (parent) {
+        parent.querySelectorAll('.option-card').forEach(card => {
+            card.classList.remove('selected');
+        });
+    }
+    
+    // Agregar selección al elemento actual
     element.classList.add('selected');
     element.style.transform = 'scale(0.95)';
     setTimeout(() => {

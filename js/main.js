@@ -1238,12 +1238,18 @@ async function acceptCoupon() {
     // Mostrar mensaje de confirmación
     document.getElementById('couponSection').innerHTML = `
         <div class="coupon-success">
-            <i class="fas fa-check-circle"></i>
-            <h3>¡Perfecto, ${nombre}!</h3>
-            <p style="font-size: 1.2rem; margin: 20px 0;">${nombre}, hemos enviado tu descuento exclusivo a tu WhatsApp</p>
-            <p class="coupon-note">📱 WhatsApp: ${userData.whatsapp}</p>
+            <div class="success-icon-wrapper">
+                <i class="fas fa-check-circle"></i>
+            </div>
+            <h3 class="success-title">¡Perfecto, ${nombre}!</h3>
+            <p class="success-message">Hemos enviado tu descuento exclusivo a tu WhatsApp</p>
+            <div class="success-detail">
+                <i class="fab fa-whatsapp"></i>
+                <span>Revisa tus mensajes en WhatsApp</span>
+            </div>
             <a href="https://adaptohealmx.com/shop" target="_blank" class="btn-shop-now">
-                Ir a la tienda <i class="fas fa-shopping-cart"></i>
+                <i class="fas fa-shopping-cart"></i>
+                <span>Ir a la tienda</span>
             </a>
         </div>
     `;

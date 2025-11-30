@@ -105,6 +105,11 @@ function navigateToScreen(screenId) {
     if (targetScreen) {
         targetScreen.classList.add('active');
         window.scrollTo(0, 0);
+        
+        // Limpiar todas las selecciones visuales en la nueva pantalla
+        targetScreen.querySelectorAll('.option-card').forEach(card => {
+            card.classList.remove('selected');
+        });
     }
 }
 

@@ -1043,6 +1043,7 @@ async function saveToDatabase(recommendations) {
     const dbData = {
         // Contacto
         nombre: userData.nombre,
+        email: userData.email,
         whatsapp: userData.whatsapp,
         
         // Datos personales

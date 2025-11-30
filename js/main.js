@@ -133,27 +133,65 @@ function restorePreviousSelection(screenId) {
         'screen-q15': { field: 'problemasDigestivos', values: ['frecuentes', 'ocasionales', 'ninguno'] },
         'screen-q16': { field: 'frecuenciaEnfermedades', values: ['frecuente', 'ocasional', 'raro'] },
         'screen-q17': { field: 'problemasCirculacion', values: ['si', 'a-veces', 'no'] },
-        'screen-q18': { field: 'libido', values: ['muy-bajo', 'bajo', 'normal', 'alto'] },
+        'screen-q19': { field: 'libido', values: ['muy-bajo', 'bajo', 'normal', 'alto'] },
         'screen-q22': { field: 'consumoCafeina', values: ['ninguno', '1-2', '3-4', 'mas-5'] },
         'screen-q23': { field: 'tipoAlimentacion', values: ['procesada', 'mixta', 'saludable', 'muy-saludable'] }
     };
     
+    // Mapeo de pantallas con selección múltiple (arrays)
+    const multiSelectMap = {
+        'screen-q18': { globalVar: 'selectedHormones', functionPrefix: 'toggleHormone' },
+        'screen-q20': { globalVar: 'selectedAilments', functionPrefix: 'toggleAilment' },
+        'screen-q21': { globalVar: 'selectedFamilyHistory', functionPrefix: 'toggleFamilyHistory' },
+        'screen-q24': { globalVar: 'selectedObjectives', functionPrefix: 'toggleObjective' }
+    };
+    
+    // Restaurar selección única
     const mapping = screenMap[screenId];
-    if (!mapping) return;
-    
-    const savedValue = userData[mapping.field];
-    if (!savedValue) return;
-    
-    // Buscar el botón correspondiente y marcarlo como seleccionado
-    const targetScreen = document.getElementById(screenId);
-    if (targetScreen) {
-        const buttons = targetScreen.querySelectorAll('.option-card');
-        buttons.forEach((button, index) => {
-            const onclick = button.getAttribute('onclick');
-            if (onclick && onclick.includes(`'${savedValue}'`)) {
-                button.classList.add('selected');
+    if (mapping) {
+        const savedValue = userData[mapping.field];
+        if (savedValue) {
+            const targetScreen = document.getElementById(screenId);
+            if (targetScreen) {
+                const buttons = targetScreen.querySelectorAll('.option-card');
+                buttons.forEach((button) => {
+                    const onclick = button.getAttribute('onclick');
+                    if (onclick && onclick.includes(`'${savedValue}'`)) {
+                        button.classList.add('selected');
+                    }
+                });
             }
-        });
+        }
+    }
+    
+    // Restaurar selección múltiple
+    const multiMapping = multiSelectMap[screenId];
+    if (multiMapping) {
+        let savedArray = [];
+        
+        // Obtener el array correcto según la pantalla
+        if (multiMapping.globalVar === 'selectedHormones') savedArray = selectedHormones;
+        else if (multiMapping.globalVar === 'selectedAilments') savedArray = selectedAilments;
+        else if (multiMapping.globalVar === 'selectedFamilyHistory') savedArray = selectedFamilyHistory;
+        else if (multiMapping.globalVar === 'selectedObjectives') savedArray = selectedObjectives;
+        
+        if (savedArray.length > 0) {
+            const targetScreen = document.getElementById(screenId);
+            if (targetScreen) {
+                const buttons = targetScreen.querySelectorAll('.option-card');
+                buttons.forEach((button) => {
+                    const onclick = button.getAttribute('onclick');
+                    if (onclick) {
+                        // Extraer el valor del onclick (ej: toggleHormone('menopausia'))
+                        savedArray.forEach(value => {
+                            if (onclick.includes(`'${value}'`)) {
+                                button.classList.add('selected');
+                            }
+                        });
+                    }
+                });
+            }
+        }
     }
 }
 

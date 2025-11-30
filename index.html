@@ -76,30 +76,10 @@
                 <div class="question-category">📊 Datos Personales (1/4)</div>
                 <h2 class="question-title">¿Cuál es tu edad?</h2>
                 <p class="question-subtitle">Nos ayuda a personalizar las recomendaciones</p>
-                <div class="options-grid age-options">
-                    <button class="option-card" onclick="selectAge('18-25')">
-                        <i class="fas fa-user-graduate"></i>
-                        <span>18-25 años</span>
-                    </button>
-                    <button class="option-card" onclick="selectAge('26-35')">
-                        <i class="fas fa-user-tie"></i>
-                        <span>26-35 años</span>
-                    </button>
-                    <button class="option-card" onclick="selectAge('36-45')">
-                        <i class="fas fa-user"></i>
-                        <span>36-45 años</span>
-                    </button>
-                    <button class="option-card" onclick="selectAge('46-55')">
-                        <i class="fas fa-user-check"></i>
-                        <span>46-55 años</span>
-                    </button>
-                    <button class="option-card" onclick="selectAge('56-65')">
-                        <i class="fas fa-user-clock"></i>
-                        <span>56-65 años</span>
-                    </button>
-                    <button class="option-card" onclick="selectAge('66+')">
-                        <i class="fas fa-user-shield"></i>
-                        <span>66+ años</span>
+                <div class="input-container">
+                    <input type="number" id="ageInput" class="input-field" placeholder="Ejemplo: 32" min="18" max="100" required>
+                    <button class="btn-next" onclick="submitAge()">
+                        Continuar <i class="fas fa-arrow-right"></i>
                     </button>
                 </div>
             </div>

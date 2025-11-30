@@ -761,12 +761,20 @@ function confirmObjectives() {
 
 async function submitQuiz() {
     const name = document.getElementById('inputName').value.trim();
+    const email = document.getElementById('inputEmail').value.trim();
     const whatsapp = document.getElementById('inputWhatsapp').value.trim();
+    const termsAccepted = document.getElementById('inputTerms').checked;
     
     // Validaciones
     if (!name || name.length < 2) {
         alert('Por favor ingresa tu nombre');
         document.getElementById('inputName').focus();
+        return;
+    }
+    
+    if (!email || !/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
+        alert('Por favor ingresa un correo electrónico válido');
+        document.getElementById('inputEmail').focus();
         return;
     }
     
@@ -776,7 +784,14 @@ async function submitQuiz() {
         return;
     }
     
+    if (!termsAccepted) {
+        alert('⚠️ Para continuar es necesario aceptar los términos y condiciones');
+        document.getElementById('inputTerms').focus();
+        return;
+    }
+    
     userData.nombre = name;
+    userData.email = email;
     userData.whatsapp = '+52' + whatsapp;
     userData.timestamp = new Date().toISOString();
     

@@ -610,6 +610,42 @@ body {
     font-style: italic;
 }
 
+.terms-checkbox {
+    display: flex;
+    align-items: flex-start;
+    gap: 12px;
+    padding: 1rem;
+    background: var(--gris-suave);
+    border-radius: 12px;
+    margin-top: 0.5rem;
+}
+
+.terms-checkbox input[type="checkbox"] {
+    width: 20px;
+    height: 20px;
+    min-width: 20px;
+    margin-top: 2px;
+    cursor: pointer;
+    accent-color: var(--verde-salvia);
+}
+
+.terms-checkbox label {
+    font-size: 0.9rem;
+    line-height: 1.5;
+    color: var(--tierra-oscura);
+    cursor: pointer;
+}
+
+.terms-checkbox label a {
+    color: var(--verde-salvia);
+    text-decoration: underline;
+    font-weight: 500;
+}
+
+.terms-checkbox label a:hover {
+    color: var(--verde-bosque);
+}
+
 /* ============================================
    LOADING SCREEN
    ============================================ */

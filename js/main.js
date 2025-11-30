@@ -244,6 +244,21 @@ function selectAge(age) {
     }, 300);
 }
 
+function submitAge() {
+    const ageInput = document.getElementById('ageInput');
+    const age = parseInt(ageInput.value);
+    
+    if (!age || age < 18 || age > 100) {
+        alert('Por favor ingresa una edad válida entre 18 y 100 años');
+        return;
+    }
+    
+    userData.edad = age.toString();
+    currentScreen = 2;
+    navigateToScreen('screen-q2');
+    updateProgressBar();
+}
+
 function selectGender(gender) {
     userData.sexo = gender;
     animateSelection(event.target);

@@ -110,6 +110,50 @@ function navigateToScreen(screenId) {
         targetScreen.querySelectorAll('.option-card').forEach(card => {
             card.classList.remove('selected');
         });
+        
+        // Restaurar la selección previa si existe
+        restorePreviousSelection(screenId);
+    }
+}
+
+function restorePreviousSelection(screenId) {
+    // Mapeo de pantallas a campos de userData y valores
+    const screenMap = {
+        'screen-q2': { field: 'sexo', values: ['masculino', 'femenino'] },
+        'screen-q5': { field: 'horasSueño', values: ['menos-5h', '5-6h', '7-8h', 'mas-8h'] },
+        'screen-q6': { field: 'nivelEnergia', values: ['muy-bajo', 'bajo', 'normal', 'bueno', 'excelente'] },
+        'screen-q7': { field: 'problemasSueño', values: ['insomnio', 'interrupciones', 'calidad', 'ninguno'] },
+        'screen-q8': { field: 'actividadFisica', values: ['sedentario', 'ligero', 'moderado', 'intenso'] },
+        'screen-q9': { field: 'consumoAgua', values: ['menos-1l', '1-2l', '2-3l', 'mas-3l'] },
+        'screen-q10': { field: 'habitos', values: ['fuma-bebe', 'solo-fuma', 'solo-bebe', 'ninguno'] },
+        'screen-q11': { field: 'nivelEstres', values: ['bajo', 'moderado', 'alto', 'muy-alto'] },
+        'screen-q12': { field: 'estadoAnimo', values: ['deprimido', 'ansioso', 'variable', 'estable'] },
+        'screen-q13': { field: 'presionLaboral', values: ['baja', 'media', 'alta', 'extrema'] },
+        'screen-q14': { field: 'doloresCronicos', values: ['si-intensos', 'ocasionales', 'ninguno'] },
+        'screen-q15': { field: 'problemasDigestivos', values: ['frecuentes', 'ocasionales', 'ninguno'] },
+        'screen-q16': { field: 'frecuenciaEnfermedades', values: ['frecuente', 'ocasional', 'raro'] },
+        'screen-q17': { field: 'problemasCirculacion', values: ['si', 'a-veces', 'no'] },
+        'screen-q18': { field: 'libido', values: ['muy-bajo', 'bajo', 'normal', 'alto'] },
+        'screen-q22': { field: 'consumoCafeina', values: ['ninguno', '1-2', '3-4', 'mas-5'] },
+        'screen-q23': { field: 'tipoAlimentacion', values: ['procesada', 'mixta', 'saludable', 'muy-saludable'] }
+    };
+    
+    const mapping = screenMap[screenId];
+    if (!mapping) return;
+    
+    const savedValue = userData[mapping.field];
+    if (!savedValue) return;
+    
+    // Buscar el botón correspondiente y marcarlo como seleccionado
+    const targetScreen = document.getElementById(screenId);
+    if (targetScreen) {
+        const buttons = targetScreen.querySelectorAll('.option-card');
+        buttons.forEach((button, index) => {
+            const onclick = button.getAttribute('onclick');
+            if (onclick && onclick.includes(`'${savedValue}'`)) {
+                button.classList.add('selected');
+            }
+        });
     }
 }
 
